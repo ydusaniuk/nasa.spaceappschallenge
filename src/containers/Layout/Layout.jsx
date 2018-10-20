@@ -4,10 +4,17 @@ import styles from './Layout.module.sass';
 
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
+import LaunchesList from '../../components/LaunchesList/LaunchesList';
 
 class Layout extends React.Component {
   state = {
     showSideDrawer: false,
+  };
+
+  closeSideDrawerHandler = () => {
+    this.setState({
+      showSideDrawer: false,
+    });
   };
 
   toggleSideDrawerHandler = () => {
@@ -22,7 +29,8 @@ class Layout extends React.Component {
     return (
       <div className={styles.Layout}>
         <Toolbar toggleMenuClicked={this.toggleSideDrawerHandler} />
-        <SideDrawer isOpen={this.state.showSideDrawer} />
+        <SideDrawer isOpen={this.state.showSideDrawer} onClick={this.closeSideDrawerHandler} />
+        <LaunchesList/>
         <main className={styles.Content}>
           {this.props.children}
         </main>

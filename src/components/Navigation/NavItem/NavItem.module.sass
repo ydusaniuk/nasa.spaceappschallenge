@@ -1,0 +1,41 @@
+.NavItem
+  margin: 10px 0
+  box-sizing: border-box
+  width: 100%
+  display: block
+
+  a
+    width: 100%
+    color: #fff
+    display: block
+
+    text-decoration: none
+    text-align: center
+    font-weight: bold
+    box-sizing: border-box
+
+    &:hover,
+    &:active,
+    &.active
+      color: #eee
+
+@media (min-width: 500px)
+  .NavItem
+    margin: 0
+    height: 100%
+    width: auto
+
+    display: flex
+    align-items: center
+
+    a
+      color: #fff
+      padding: 16px 10px
+      border-bottom: 4px solid transparent
+
+      &:active,
+      &.active
+        color: #fff
+
+      &:hover
+        color: #c6c6c6

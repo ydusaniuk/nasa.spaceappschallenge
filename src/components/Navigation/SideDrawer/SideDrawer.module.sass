@@ -1,11 +1,13 @@
 .SideDrawer
-  grid-area: b
+  position: absolute
+  left: 0
+  top: 45px
 
   width: 100%
   height: 100%
   z-index: 200
 
-  background-color: #fff
+  background-color: #000
   box-sizing: border-box
 
 @media (max-width: 499px)
@@ -20,15 +22,4 @@
 
 @media (min-width: 500px)
   .SideDrawer
-    grid-area: s
-    transition: width .15s ease-out, visibility .1s ease-out, padding .1s ease-out
-
-    &.Open
-      padding: 32px 16px
-      width: 300px
-      visibility: visible
-
-    &.Close
-      width: 0
-      padding: 32px 0
-      visibility: hidden
+    display: none

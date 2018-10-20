@@ -2,18 +2,18 @@ import React from 'react';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 
 import styles from './SideDrawer.module.sass';
+import NavItems from '../NavItems/NavItems';
 
 const SideDrawer = (props) => {
   const statusClassName = props.isOpen
     ? styles.Open : styles.Close;
 
   return (
-    <React.Fragment>
-      {/*<Backdrop onClick={props.onClose} visible={props.isOpen}/>*/}
-      <div className={[styles.SideDrawer, statusClassName].join(' ')}>
-        SideDrawer
-      </div>
-    </React.Fragment>
+    <div className={[styles.SideDrawer, statusClassName].join(' ')}>
+      <nav>
+        <NavItems onClick={props.onClick} />
+      </nav>
+    </div>
   );
 };
 
