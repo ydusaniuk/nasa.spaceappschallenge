@@ -3,10 +3,16 @@ import { connect } from 'react-redux';
 
 import styles from './Dashboard.module.sass';
 
-import Globe from '../../components/Globe/Globe';
 import spaceportActions from '../../store/actions/spaceport.actoins';
 
+import Globe from '../../components/Globe/Globe';
+import LaunchesList from '../../components/LaunchesList/LaunchesList';
+
 class Dashboard extends React.Component {
+  state = {
+    selectedSpaceport: null,
+  };
+
   componentDidMount() {
     this.props.onLoadSpaceports();
   }
@@ -21,8 +27,9 @@ class Dashboard extends React.Component {
       ));
 
       if (port) {
-        // TODO: notify app that port has been selected
-        console.log(port);
+        this.setState({
+          selectedSpaceport: port,
+        });
       }
     }
   };
@@ -33,6 +40,7 @@ class Dashboard extends React.Component {
         <Globe spaceports={this.props.spaceports}
                spaceportsLoadStatus={this.props.spaceportsLoadStatus}
                onLocationSelected={this.showSpaceportInfo} />
+        <LaunchesList spaceport={this.state.selectedSpaceport}/>
       </div>
     );
   }

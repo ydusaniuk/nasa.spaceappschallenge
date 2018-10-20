@@ -1,6 +1,13 @@
 .Dashboard
+  display: flex
+  flex-direction: column
+
   padding: 30px
   box-sizing: border-box
 
   width: 100%
   height: 100%
+
+@media (min-width: 768px)
+  .Dashboard
+    flex-direction: row

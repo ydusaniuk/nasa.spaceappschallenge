@@ -11,9 +11,9 @@ export function* spaceportSagas () {
   ]);
 }
 
-function* loadSpaceportSaga(action) {
+function* loadSpaceportSaga() {
   // imitate loading
-  yield delay(3000);
+  yield delay(1000);
   yield put(spaceportActions.loadSpaceportsListSuccess([
     {
       name: 'Vinnytsia',
