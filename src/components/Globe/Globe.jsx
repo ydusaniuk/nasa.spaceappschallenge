@@ -2,11 +2,36 @@ import React from 'react';
 
 import * as Planetaryjs from 'planetary.js';
 import worldData from 'planetary.js/dist/world-110m.json';
+import * as d3 from 'd3';
 
 import styles from './Globe.module.sass';
 
 class Globe extends React.Component {
   planet = undefined;
+
+  autorotate(degPerSec) {
+    return function(planet) {
+      var lastTick = null;
+      var paused = false;
+      planet.plugins.autorotate = {
+        pause:  function() { paused = true;  },
+        resume: function() { paused = false; }
+      };
+      planet.onDraw(function() {
+        if (paused || !lastTick) {
+          lastTick = new Date();
+        } else {
+          var now = new Date();
+          var delta = now - lastTick;
+          var rotation = planet.projection.rotate();
+          rotation[0] += degPerSec * delta / 1000;
+          if (rotation[0] >= 180) rotation[0] -= 360;
+          planet.projection.rotate(rotation);
+          lastTick = now;
+        }
+      });
+    };
+  };
 
   onCanvasResize = () => {
     const wrapper = document.getElementById('globe-wrapper');
@@ -43,7 +68,29 @@ class Globe extends React.Component {
 
 
     this.planet.loadPlugin(Planetaryjs.plugins.pings());
-    this.planet.loadPlugin(Planetaryjs.plugins.drag());
+    this.planet.loadPlugin(Planetaryjs.plugins.drag({
+      onDragStart: function() {
+        this.plugins.autorotate.pause();
+      },
+      onDragEnd: function() {
+        this.plugins.autorotate.resume();
+      }
+    }));
+    this.planet.loadPlugin(this.autorotate(10));
+
+    this.planet.loadPlugin((planet) => {
+      planet.onDraw(() => {
+        planet.withSavedContext((context) => {
+          // let arc = {type: "LineString", coordinates: [[40, 30], [40, -50]]};
+          var arc = d3.geo.greatArc().source([40, 30]).target([0, -50])();
+
+          context.beginPath();
+          planet.path.context(context)(arc);
+          context.stroke();
+          context.closePath();
+        });
+      })
+    });
 
     this.planet.projection.scale(200).translate([200, 200]);
     this.planet.draw(canvas);
