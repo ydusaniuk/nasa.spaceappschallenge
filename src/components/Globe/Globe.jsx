@@ -10,14 +10,18 @@ class Globe extends React.Component {
   planet = undefined;
 
   autorotate(degPerSec) {
-    return function(planet) {
+    return function (planet) {
       var lastTick = null;
       var paused = false;
       planet.plugins.autorotate = {
-        pause:  function() { paused = true;  },
-        resume: function() { paused = false; }
+        pause: function () {
+          paused = true;
+        },
+        resume: function () {
+          paused = false;
+        }
       };
-      planet.onDraw(function() {
+      planet.onDraw(function () {
         if (paused || !lastTick) {
           lastTick = new Date();
         } else {
@@ -38,9 +42,7 @@ class Globe extends React.Component {
     const canvasHTML = document.getElementById('globe');
 
     const resizeCanvas = () => {
-      let sideSize = Math.min(wrapper.offsetHeight, wrapper.offsetWidth);
-      // sideSize -= parseFloat(window.getComputedStyle(wrapper).padding);
-
+      const sideSize = Math.min(wrapper.offsetHeight, wrapper.offsetWidth);
       const scaleSize = sideSize / 2;
 
       canvasHTML.width = sideSize;
@@ -66,26 +68,35 @@ class Globe extends React.Component {
       })
     );
 
-
     this.planet.loadPlugin(Planetaryjs.plugins.pings());
     this.planet.loadPlugin(Planetaryjs.plugins.drag({
-      onDragStart: function() {
-        this.plugins.autorotate.pause();
+      onDragStart: () => {
+        const [lng, lat] = this.planet.projection.invert(d3.mouse(this.planet.canvas));
+        console.log(lng, lat);
+
+        // TODO: find station by location
+
+        this.planet.plugins.autorotate.pause();
       },
-      onDragEnd: function() {
+      onDragEnd: function () {
         this.plugins.autorotate.resume();
       }
     }));
-    this.planet.loadPlugin(this.autorotate(10));
+
+    this.planet.loadPlugin(this.autorotate(0));
 
     this.planet.loadPlugin((planet) => {
       planet.onDraw(() => {
         planet.withSavedContext((context) => {
-          // let arc = {type: "LineString", coordinates: [[40, 30], [40, -50]]};
-          var arc = d3.geo.greatArc().source([40, 30]).target([0, -50])();
+          let point = {
+            type: 'Point',
+            coordinates: [28.4682, 49.2331]
+          };
 
           context.beginPath();
-          planet.path.context(context)(arc);
+          context.strokeStyle = '#f00';
+
+          planet.path.context(context)(point);
           context.stroke();
           context.closePath();
         });
@@ -96,18 +107,6 @@ class Globe extends React.Component {
     this.planet.draw(canvas);
 
     this.onCanvasResize();
-
-    // for (let i = 0; i < 10; i++) {
-    //   const colors = ['red', 'yellow', 'white', 'orange', 'green', 'cyan', 'pink'];
-    //   setInterval(() => {
-    //     var lat = Math.random() * 170 - 85;
-    //     var lng = Math.random() * 360 - 180;
-    //     var color = colors[Math.floor(Math.random() * colors.length)];
-    //     var angle = Math.random() * 10;
-    //     this.planet.plugins.pings.add(lng, lat, { color: color, ttl: 5000, angle: angle });
-    //   }, 250);
-    // }
-
   }
 
   render() {
