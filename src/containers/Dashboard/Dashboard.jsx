@@ -11,8 +11,20 @@ class Dashboard extends React.Component {
     this.props.onLoadSpaceports();
   }
 
-  showSpaceportInfo = (port) => {
-    console.log(port);
+  showSpaceportInfo = (location) => {
+    if (this.props.spaceportsLoadStatus.loaded) {
+      const [lng, lat] = location;
+
+      const port = this.props.spaceports.find((port) => (
+        Math.abs(port.lat - lat) <= 1.5 &&
+        Math.abs(port.lng - lng) <= 1.5
+      ));
+
+      if (port) {
+        // TODO: notify app that port has been selected
+        console.log(port);
+      }
+    }
   };
 
   render() {
@@ -20,7 +32,7 @@ class Dashboard extends React.Component {
       <div className={styles.Dashboard}>
         <Globe spaceports={this.props.spaceports}
                spaceportsLoadStatus={this.props.spaceportsLoadStatus}
-               onSpaceportSelected={this.showSpaceportInfo} />
+               onLocationSelected={this.showSpaceportInfo} />
       </div>
     );
   }
