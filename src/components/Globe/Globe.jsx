@@ -3,8 +3,30 @@ import React from 'react';
 import * as Planetaryjs from 'planetary.js';
 import worldData from 'planetary.js/dist/world-110m.json';
 
+import styles from './Globe.module.sass';
+
 class Globe extends React.Component {
   planet = undefined;
+
+  onCanvasResize = () => {
+    const wrapper = document.getElementById('globe-wrapper');
+    const canvasHTML = document.getElementById('globe');
+
+    const resizeCanvas = () => {
+      let sideSize = Math.min(wrapper.offsetHeight, wrapper.offsetWidth);
+      // sideSize -= parseFloat(window.getComputedStyle(wrapper).padding);
+
+      const scaleSize = sideSize / 2;
+
+      canvasHTML.width = sideSize;
+      canvasHTML.height = sideSize;
+
+      this.planet.projection.scale(scaleSize).translate([scaleSize, scaleSize]);
+    };
+
+    // TODO: handle window resize event for dynamic updates
+    resizeCanvas();
+  };
 
   componentDidMount() {
     this.planet = Planetaryjs.planet();
@@ -13,9 +35,9 @@ class Globe extends React.Component {
     this.planet.loadPlugin(
       Planetaryjs.plugins.earth({
         topojson: { world: worldData },
-        oceans: { fill: 'none' },
+        oceans: { fill: '#666' },
         land: { fill: 'silver' },
-        borders: { stroke: 'silver' },
+        borders: { stroke: 'black' },
       })
     );
 
@@ -23,15 +45,28 @@ class Globe extends React.Component {
     this.planet.loadPlugin(Planetaryjs.plugins.pings());
     this.planet.loadPlugin(Planetaryjs.plugins.drag());
 
-    this.planet.projection.scale(250).translate([250, 250]);
-    // this.planet.draw(canvas);
+    this.planet.projection.scale(200).translate([200, 200]);
+    this.planet.draw(canvas);
+
+    this.onCanvasResize();
+
+    // for (let i = 0; i < 10; i++) {
+    //   const colors = ['red', 'yellow', 'white', 'orange', 'green', 'cyan', 'pink'];
+    //   setInterval(() => {
+    //     var lat = Math.random() * 170 - 85;
+    //     var lng = Math.random() * 360 - 180;
+    //     var color = colors[Math.floor(Math.random() * colors.length)];
+    //     var angle = Math.random() * 10;
+    //     this.planet.plugins.pings.add(lng, lat, { color: color, ttl: 5000, angle: angle });
+    //   }, 250);
+    // }
+
   }
 
   render() {
     return (
-      <div>
-        Globe
-        {/*<canvas id="globe" width="500" height="500" />*/}
+      <div id="globe-wrapper" className={styles.Globe}>
+        <canvas id="globe" />
       </div>
     );
   }
