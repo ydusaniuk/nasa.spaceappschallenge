@@ -19,11 +19,11 @@ class Dashboard extends React.Component {
 
   showSpaceportInfo = (location) => {
     if (this.props.spaceportsLoadStatus.loaded) {
-      const [lng, lat] = location;
+      const [longitude, latitude] = location;
 
       const port = this.props.spaceports.find((port) => (
-        Math.abs(port.lat - lat) <= 1.5 &&
-        Math.abs(port.lng - lng) <= 1.5
+        Math.abs(port.latitude - latitude) <= 1.5 &&
+        Math.abs(port.longitude - longitude) <= 1.5
       ));
 
       if (port) {

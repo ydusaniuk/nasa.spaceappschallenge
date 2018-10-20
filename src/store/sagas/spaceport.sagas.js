@@ -1,9 +1,9 @@
-import { delay } from 'redux-saga';
 import { takeEvery, all } from 'redux-saga/effects';
 import { put } from 'redux-saga/effects';
 import axios from 'axios';
 
 import spaceportActions, { spaceportActionTypes } from '../actions/spaceport.actoins';
+import { CONFIG } from '../../config/config';
 
 export function* spaceportSagas () {
   yield all([
@@ -12,18 +12,10 @@ export function* spaceportSagas () {
 }
 
 function* loadSpaceportSaga() {
-  // imitate loading
-  yield delay(1000);
-  yield put(spaceportActions.loadSpaceportsListSuccess([
-    {
-      name: 'Vinnytsia',
-      lat: 49.2331,
-      lng: 28.4682,
-    },
-    {
-      name: 'Other',
-      lat: 28.4682,
-      lng: 49.2331,
-    },
-  ]))
+  try {
+    const response = yield axios.get(`${CONFIG.endpoints.rocketLaucher}/events`);
+    yield put(spaceportActions.loadSpaceportsListSuccess(response.data));
+  } catch(err) {
+    yield put(spaceportActions.loadSpaceportsListFail(err))
+  }
 }

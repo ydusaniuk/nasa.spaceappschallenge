@@ -11,7 +11,7 @@ class LaunchesList extends React.Component {
             ? (
               <React.Fragment>
                 <h2>{this.props.spaceport.name}</h2>
-                <p>[{this.props.spaceport.lat}, {this.props.spaceport.lng}]</p>
+                <p>[{this.props.spaceport.latitude}, {this.props.spaceport.longitude}]</p>
               </React.Fragment>
             )
             : null

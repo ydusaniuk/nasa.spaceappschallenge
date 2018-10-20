@@ -17,9 +17,10 @@ const loadSpaceportsListSuccess = (ports) => {
   }
 };
 
-const loadSpaceportsListFail = () => {
+const loadSpaceportsListFail = (error) => {
   return {
     type: spaceportActionTypes.LOAD_SPACEPORTS_LIST_FAIL,
+    payload: error
   }
 };
 

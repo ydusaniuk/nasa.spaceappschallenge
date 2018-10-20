@@ -34,9 +34,9 @@ class Globe extends React.Component {
     this.planet.loadPlugin(
       Planetaryjs.plugins.earth({
         topojson: { world: worldData },
-        oceans: { fill: '#666' },
-        land: { fill: 'silver' },
-        borders: { stroke: 'black' },
+        oceans:   { fill:   '#001320' },
+        land:     { fill:   '#06304e' },
+        borders:  { stroke: '#001320' }
       })
     );
 
@@ -67,7 +67,7 @@ class Globe extends React.Component {
           this.props.spaceports.forEach((port) => {
             this.planet.path.context(context)({
               type: 'Point',
-              coordinates: [port.lng, port.lat],
+              coordinates: [port.longitude, port.latitude],
             });
           });
 
