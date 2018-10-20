@@ -1,7 +1,9 @@
 import React from 'react';
-import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 
 import styles from './Layout.module.sass';
+
+import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
+import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 class Layout extends React.Component {
   state = {
@@ -12,21 +14,18 @@ class Layout extends React.Component {
   //   this.setState({ showSideDrawer: false });
 
   toggleSideDrawerHandler = () => {
-    console.log('toggle side drawer');
-
-    // this.setState((prevState) => {
-    //   return {
-    //     showSideDrawer: !prevState.showSideDrawer,
-    //   }
-    // });
+    this.setState((prevState) => {
+      return {
+        showSideDrawer: !prevState.showSideDrawer,
+      }
+    });
   };
 
   render() {
     return (
       <div className={styles.Layout}>
-        <Toolbar toggleMenuClicked={this.toggleSideDrawerHandler}/>
-        {/*<SideDrawer isOpen={this.state.showSideDrawer}*/}
-                    {/*onClose={this.closeSideDrawerHandler}/>*/}
+        <Toolbar toggleMenuClicked={this.toggleSideDrawerHandler} />
+        <SideDrawer isOpen={this.state.showSideDrawer} />
         <main className={styles.Content}>
           {this.props.children}
         </main>

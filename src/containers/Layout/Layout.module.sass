@@ -2,10 +2,18 @@
   display: grid
   grid-template-columns: auto
   grid-template-rows: 45px auto
-  grid-template-areas: "header" "body"
+  grid-template-areas: "h h h h" "b b b b" "b b b b" "b b b b"
 
   height: 100vh
   background-color: #549bf1
 
-  .content
-    grid-area: body
+  .Body
+    position: relative
+
+  .Content
+    grid-area: b
+
+@media (min-width: 500px)
+  .Layout
+    grid-template-columns: min-content auto
+    grid-template-areas: "h h h h" "s b b b" "s b b b" "s b b b"
