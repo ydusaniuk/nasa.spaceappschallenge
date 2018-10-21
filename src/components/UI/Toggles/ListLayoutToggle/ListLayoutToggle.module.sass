@@ -1,0 +1,27 @@
+.ListLayoutToggle
+  height: 20px
+  width: 20px
+
+  .List
+    height: 20px
+    display: grid
+    grid-column-gap: 2px
+    grid-row-gap: 2px
+
+    grid-template-columns: repeat(3, 20px 0)
+
+    grid-template-rows: 3px 3px 3px
+    grid-template-areas: "short long long"
+
+    span
+      display: block
+      background: #fff
+      height: 3px
+
+
+      grid-area: short
+
+      &:nth-child(2n)
+        grid-area: long
+
+//.Grid

@@ -111,7 +111,7 @@ class Globe extends React.Component {
   render() {
     return (
       <div id="globe-wrapper"
-           style={{width: '100%', height: '100%', 'min-height': '360px'}}>
+           style={{width: '100%', height: '100%', minHeight: '360px'}}>
         <canvas id="globe" style={{display: 'block', margin: '0 auto'}} />
       </div>
     );

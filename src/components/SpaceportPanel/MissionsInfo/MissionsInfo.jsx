@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './MissionsInfo.module.sass';
-import panelStyles from '../shared/Panel.module.sass';
+import panelStyles from '../../shared/Panel.module.sass';
 
 const MissionsInfo = (props) => (
   <div className={[styles.MissionsInfo, panelStyles.Panel].join(' ')}>

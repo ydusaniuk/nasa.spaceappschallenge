@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './SpaceportInfo.module.sass';
-import panelStyles from '../shared/Panel.module.sass';
+import panelStyles from '../../shared/Panel.module.sass';
 
 const SpaceportInfo = (props) => (
   <div className={[styles.SpaceportInfo, panelStyles.Panel].join(' ')}>
