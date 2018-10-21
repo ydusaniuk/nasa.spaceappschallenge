@@ -31,8 +31,8 @@ class Dashboard extends React.Component {
       const [longitude, latitude] = location;
 
       const port = this.props.spaceports.find((port) => (
-        Math.abs(port.latitude - latitude) <= 1.5 &&
-        Math.abs(port.longitude - longitude) <= 1.5
+        Math.abs(port.latitude - latitude) <= 3 &&
+        Math.abs(port.longitude - longitude) <= 3
       ));
 
       if (port) {
