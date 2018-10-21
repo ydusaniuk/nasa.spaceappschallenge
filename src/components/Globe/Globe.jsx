@@ -30,13 +30,40 @@ class Globe extends React.Component {
     resizeCanvas();
   };
 
+  focusOnLocation = (location) => {
+    // const paused = false;
+    // let counter = 0;
+    //
+    // const rotate = this.planet.projection.rotate();
+    // const diff = [rotate[0] - location[0], rotate[1] - location[1]];
+    //
+    // this.planet.onDraw(() => {
+    //   if (counter === 10) return;
+    //   counter++;
+    //
+    //   const rotation = this.planet.projection.rotate();
+    //
+    //   rotation[0] += diff[0] * 0.1;
+    //   // rotation[1] -= diff[1] * 0.1;
+    //
+    //   this.planet.projection.rotate(rotation)
+    // });
+
+    const rotation = this.planet.projection.rotate();
+
+    rotation[0] = -location[0];
+    rotation[1] = -location[1];
+
+    this.planet.projection.rotate(rotation);
+  };
+
   componentDidMount() {
     this.planet.loadPlugin(
       Planetaryjs.plugins.earth({
         topojson: { world: worldData },
-        oceans:   { fill:   '#001320' },
-        land:     { fill:   '#06304e' },
-        borders:  { stroke: '#001320' }
+        oceans: { fill: '#001320' },
+        land: { fill: '#06304e' },
+        borders: { stroke: '#001320' }
       })
     );
 

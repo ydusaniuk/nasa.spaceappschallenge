@@ -9,6 +9,7 @@ import Globe from '../../components/Globe/Globe';
 import LaunchesList from '../../components/LaunchesList/LaunchesList';
 
 class Dashboard extends React.Component {
+  globe = React.createRef();
   state = {
     selectedSpaceport: null,
   };
@@ -27,6 +28,8 @@ class Dashboard extends React.Component {
       ));
 
       if (port) {
+        this.globe.current.focusOnLocation([longitude, latitude]);
+
         this.setState({
           selectedSpaceport: port,
         });
@@ -37,10 +40,11 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div className={styles.Dashboard}>
-        <Globe spaceports={this.props.spaceports}
+        <Globe ref={this.globe}
+               spaceports={this.props.spaceports}
                spaceportsLoadStatus={this.props.spaceportsLoadStatus}
                onLocationSelected={this.showSpaceportInfo} />
-        <LaunchesList spaceport={this.state.selectedSpaceport}/>
+        <LaunchesList spaceport={this.state.selectedSpaceport} />
       </div>
     );
   }
