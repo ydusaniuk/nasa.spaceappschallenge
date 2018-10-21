@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom';
 
 import styles from './MissionListItem.module.sass';
 
+import Socials from '../../UI/Socials/Socials';
+
 class MissionListItem extends React.Component {
   state = { isOpen: false };
 
@@ -30,19 +32,25 @@ class MissionListItem extends React.Component {
       <div className={missionListClasses.join(' ')}>
         <button className={styles.Accordion} onClick={this.toggleAccordion}>{mission.mission}</button>
         <div className={styles.Panel}>
-          <p><span>Company:</span> {mission.company} {mission.type && <span style={{fontStyle: 'italic'}}>({mission.type})</span>} </p>
+          <p><span>Company:</span> {mission.company} {mission.type &&
+          <span style={{ fontStyle: 'italic' }}>({mission.type})</span>} </p>
           <p><span>Rocket:</span> {mission.rocket}</p>
           <p><span>Start date:</span> {mission.date.toDateString()}</p>
           <p><span>Location:</span> [{this.props.spaceport.latitude}, {this.props.spaceport.longitude}]</p>
 
           <p>{mission.desc}</p>
-          <button className={styles.Action}
-                  onClick={() => this.updateStore(this.props.spaceport)}>Find on map</button>
-          {
-            !mission.live ? null
-              : <button className={[styles.Action, styles.Outer].join(' ')}
-                        onClick={()=> window.open(mission.live, "_blank")}>Watch live</button>
-          }
+          <div className={styles.Footer}>
+            <div>
+              <button className={styles.Action}
+                      onClick={() => this.updateStore(this.props.spaceport)}>Find on map</button>
+                {
+                  !mission.live ? null
+                    : <button className={[styles.Action, styles.Outer].join(' ')}
+                              onClick={() => window.open(mission.live, '_blank')}>Watch live</button>
+                }
+              </div>
+              <Socials fb={mission.facebook} tw={mission.twitter}/>
+          </div>
 
         </div>
       </div>
