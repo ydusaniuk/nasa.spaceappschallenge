@@ -32,7 +32,7 @@ class MissionListItem extends React.Component {
         <div className={styles.Panel}>
           <p><span>Company:</span> {mission.company}</p>
           <p><span>Rocket:</span> {mission.rocket}</p>
-          <p><span>Start date:</span> {new Date(mission.date).toDateString()}</p>
+          <p><span>Start date:</span> {mission.date.toDateString()}</p>
           <p>{mission.desc}</p>
           <button className={styles.Action}
                   onClick={() => this.updateStore(this.props.spaceport)}>Find on map</button>

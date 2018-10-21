@@ -15,7 +15,7 @@ const MissionsInfo = (props) => (
             <p><span>Company:</span> {props.missions.company}</p>
             <p><span>Rocket:</span> {props.missions.rocket}</p>
             <p><span>Description:</span> {props.missions.desc}</p>
-            <p><span>Launch date:</span> {new Date(props.missions.date).toDateString()}</p>
+            <p><span>Launch date:</span> {props.missions.date.toDateString()}</p>
           </div>
         )
     }

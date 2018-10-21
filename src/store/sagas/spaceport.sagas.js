@@ -5,7 +5,7 @@ import axios from 'axios';
 import spaceportActions, { spaceportActionTypes } from '../actions/spaceport.actoins';
 import { CONFIG } from '../../config/config';
 
-export function* spaceportSagas () {
+export function* spaceportSagas() {
   yield all([
     takeEvery(spaceportActionTypes.LOAD_SPACEPORTS_LIST, loadSpaceportSaga),
   ]);
@@ -14,8 +14,18 @@ export function* spaceportSagas () {
 function* loadSpaceportSaga() {
   try {
     const response = yield axios.get(`${CONFIG.endpoints.rocketLaucher}/events`);
-    yield put(spaceportActions.loadSpaceportsListSuccess(response.data));
-  } catch(err) {
+    const ports = response.data.map((prop) => {
+      return {
+        ...prop,
+        missions: {
+          ...prop.missions,
+          date: new Date(prop.missions.date),
+        },
+      }
+    });
+
+    yield put(spaceportActions.loadSpaceportsListSuccess(ports));
+  } catch (err) {
     yield put(spaceportActions.loadSpaceportsListFail(err))
   }
 }
