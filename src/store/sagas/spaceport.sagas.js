@@ -2,8 +2,9 @@ import { takeEvery, all } from 'redux-saga/effects';
 import { put } from 'redux-saga/effects';
 import axios from 'axios';
 
-import spaceportActions, { spaceportActionTypes } from '../actions/spaceport.actoins';
+import spaceportActions, { spaceportActionTypes } from '../actions/spaceport.actions';
 import { CONFIG } from '../../config/config';
+import launchesActions from '../actions/launches.actions';
 
 export function* spaceportSagas() {
   yield all([
@@ -24,6 +25,7 @@ function* loadSpaceportSaga() {
       }
     });
 
+    yield put(launchesActions.findClosestLaunch(ports));
     yield put(spaceportActions.loadSpaceportsListSuccess(ports));
   } catch (err) {
     yield put(spaceportActions.loadSpaceportsListFail(err))

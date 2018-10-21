@@ -1,4 +1,4 @@
-import { spaceportActionTypes } from '../actions/spaceport.actoins';
+import { spaceportActionTypes } from '../actions/spaceport.actions';
 import requestStatus from '../../shared/requestStatus';
 
 const initialState = {

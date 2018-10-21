@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styles from './Missions.module.sass';
 import panelStyles from '../../components/shared/Panel.module.sass';
 
-import spaceportActions from '../../store/actions/spaceport.actoins';
+import spaceportActions from '../../store/actions/spaceport.actions';
 
 import MissionListItem from '../../components/Missons/MissionListItem/MissionListItem';
 

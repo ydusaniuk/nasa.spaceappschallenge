@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import styles from './Dashboard.module.sass';
 
-import spaceportActions from '../../store/actions/spaceport.actoins';
+import spaceportActions from '../../store/actions/spaceport.actions';
 
 import Globe from '../../components/Globe/Globe';
 import SpaceportPanel from '../../components/SpaceportPanel/SpaceportPanel';
