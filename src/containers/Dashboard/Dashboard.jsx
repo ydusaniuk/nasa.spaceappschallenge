@@ -9,6 +9,8 @@ import Globe from '../../components/Globe/Globe';
 import SpaceportPanel from '../../components/SpaceportPanel/SpaceportPanel';
 
 class Dashboard extends React.Component {
+  // Not sure if Ref creation was the better choice
+  // but 100% the fastest :)
   globe = React.createRef();
   state = {
     selectedSpaceport: null,

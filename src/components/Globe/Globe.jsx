@@ -1,13 +1,11 @@
 import React from 'react';
 
-import * as Planetaryjs from 'planetary.js';
+import * as planetaryjs from 'planetary.js';
 import worldData from 'planetary.js/dist/world-110m.json';
 import * as d3 from 'd3';
 
-import styles from './Globe.module.sass';
-
 class Globe extends React.Component {
-  planet = Planetaryjs.planet();
+  planet = planetaryjs.planet();
 
   state = {
     hasDrawnSpaceports: false,
@@ -59,7 +57,7 @@ class Globe extends React.Component {
 
   componentDidMount() {
     this.planet.loadPlugin(
-      Planetaryjs.plugins.earth({
+      planetaryjs.plugins.earth({
         topojson: { world: worldData },
         oceans: { fill: '#001320' },
         land: { fill: '#06304e' },
@@ -67,7 +65,7 @@ class Globe extends React.Component {
       })
     );
 
-    this.planet.loadPlugin(Planetaryjs.plugins.drag({
+    this.planet.loadPlugin(planetaryjs.plugins.drag({
       onDragStart: () => {
         const location = this.planet.projection.invert(d3.mouse(this.planet.canvas));
         this.props.onLocationSelected(location);
@@ -112,8 +110,9 @@ class Globe extends React.Component {
 
   render() {
     return (
-      <div id="globe-wrapper" className={styles.Globe}>
-        <canvas id="globe" />
+      <div id="globe-wrapper"
+           style={{width: '100%', height: '100%', 'min-height': '360px'}}>
+        <canvas id="globe" style={{display: 'block', margin: '0 auto'}} />
       </div>
     );
   }
