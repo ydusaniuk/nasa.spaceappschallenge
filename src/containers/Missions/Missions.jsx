@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 import styles from './Missions.module.sass';
 import panelStyles from '../../components/shared/Panel.module.sass';
+
 import spaceportActions from '../../store/actions/spaceport.actoins';
+
 import MissionListItem from '../../components/Missons/MissionListItem/MissionListItem';
 
 class Missions extends React.Component {
   componentDidMount() {
-    if (!this.props.spaceportsLoadStatus.loaded) {
-      this.props.onLoadSpaceports();
-    }
+    this.props.onLoadSpaceports();
   }
 
   render() {
