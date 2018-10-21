@@ -1,0 +1,48 @@
+.MissionListItem
+  display: flex
+  flex-direction: column
+  margin: 10px 0 0 10px
+  width: calc(100% - 10px)
+
+  .Accordion
+    display: block
+    padding-left: 20px
+
+    color: #ddd
+    font-weight: bold
+    font-size: 16px
+    background-color: #434a50
+    border: none
+
+    height: 50px
+
+    text-align: left
+
+    &:focus
+      outline: none
+
+    &:hover
+      background-color: #777e84
+
+
+  .Panel
+    padding: 0 18px
+    height: 0
+
+    background-color: #2a2f33
+    border-bottom: 2px solid #444a50
+
+    overflow: hidden
+    //transition: height .2s ease-in-out
+
+  &.Open
+    .Accordion
+      background-color: #596066
+
+    .Panel
+      display: block
+      height: auto
+
+      span
+        color: #aaa
+        font-weight: 600

@@ -17,7 +17,9 @@ class Dashboard extends React.Component {
   };
 
   componentDidMount() {
-    this.props.onLoadSpaceports();
+    if (!this.props.spaceportsLoadStatus.loaded) {
+      this.props.onLoadSpaceports();
+    }
   }
 
   showSpaceportInfo = (location) => {

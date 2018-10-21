@@ -10,7 +10,7 @@ const SpaceportInfo = (props) => (
       !props.spaceport ? null
         : (
           <div className={panelStyles.Content}>
-            <p><span>Host:</span> {props.spaceport.site}</p>
+            <p><span>Host:</span> {props.spaceport.host}</p>
             <p><span>Latitude:</span> {props.spaceport.latitude}</p>
             <p><span>Longitude:</span> {props.spaceport.longitude}</p>
           </div>
