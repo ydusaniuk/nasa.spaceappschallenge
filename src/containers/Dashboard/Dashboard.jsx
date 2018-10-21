@@ -6,7 +6,7 @@ import styles from './Dashboard.module.sass';
 import spaceportActions from '../../store/actions/spaceport.actoins';
 
 import Globe from '../../components/Globe/Globe';
-import LaunchesList from '../../components/LaunchesList/LaunchesList';
+import SpaceportPanel from '../../components/SpaceportPanel/SpaceportPanel';
 
 class Dashboard extends React.Component {
   globe = React.createRef();
@@ -44,7 +44,7 @@ class Dashboard extends React.Component {
                spaceports={this.props.spaceports}
                spaceportsLoadStatus={this.props.spaceportsLoadStatus}
                onLocationSelected={this.showSpaceportInfo} />
-        <LaunchesList spaceport={this.state.selectedSpaceport} />
+        <SpaceportPanel spaceport={this.state.selectedSpaceport} />
       </div>
     );
   }

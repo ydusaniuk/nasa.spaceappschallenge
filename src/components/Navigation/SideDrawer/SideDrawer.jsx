@@ -1,5 +1,4 @@
 import React from 'react';
-import Backdrop from '../../UI/Backdrop/Backdrop';
 
 import styles from './SideDrawer.module.sass';
 import NavItems from '../NavItems/NavItems';
