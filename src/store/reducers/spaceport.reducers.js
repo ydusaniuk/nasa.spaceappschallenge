@@ -4,6 +4,7 @@ import requestStatus from '../../shared/requestStatus';
 const initialState = {
   spaceports: null,
   spaceportsLoadStatus: requestStatus(),
+  activeSpaceport: null,
 };
 
 const spaceportReducer = (state = initialState, action) => {
@@ -26,6 +27,18 @@ const spaceportReducer = (state = initialState, action) => {
       return {
         ...state,
         spaceportsLoadStatus: requestStatus(false, false, action.payload),
+      };
+
+    case spaceportActionTypes.SET_ACTIVE_PORT:
+      return {
+        ...state,
+        activeSpaceport: action.payload,
+      };
+
+    case spaceportActionTypes.SET_ACTIVE_PORT_SUCCESS:
+      return {
+        ...state,
+        activeSpaceport: null,
       };
 
     default:

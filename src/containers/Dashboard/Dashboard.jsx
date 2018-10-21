@@ -18,6 +18,12 @@ class Dashboard extends React.Component {
 
   componentDidMount() {
     this.props.onLoadSpaceports();
+
+    if (this.props.activeSpaceport) {
+      this.setState({
+        selectedSpaceport: this.props.activeSpaceport,
+      });
+    }
   }
 
   showSpaceportInfo = (location) => {
@@ -30,8 +36,7 @@ class Dashboard extends React.Component {
       ));
 
       if (port) {
-        this.globe.current.focusOnLocation([longitude, latitude]);
-
+        this.props.onSetActiveSpaceport(port);
         this.setState({
           selectedSpaceport: port,
         });
@@ -43,8 +48,10 @@ class Dashboard extends React.Component {
     return (
       <div className={styles.Dashboard}>
         <Globe ref={this.globe}
+               activeSpaceport={this.props.activeSpaceport}
                spaceports={this.props.spaceports}
                spaceportsLoadStatus={this.props.spaceportsLoadStatus}
+               afterSetActiveSpaceport={this.props.afterSetActiveSpaceport}
                onLocationSelected={this.showSpaceportInfo} />
         <SpaceportPanel spaceport={this.state.selectedSpaceport} />
       </div>
@@ -54,6 +61,7 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    activeSpaceport: state.spaceports.activeSpaceport,
     spaceports: state.spaceports.spaceports,
     spaceportsLoadStatus: state.spaceports.spaceportsLoadStatus,
   }
@@ -62,6 +70,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     onLoadSpaceports: () => dispatch(spaceportActions.loadSpaceportsList()),
+    onSetActiveSpaceport: (port) => dispatch(spaceportActions.setActiveSpaceport(port)),
+    afterSetActiveSpaceport: () => dispatch(spaceportActions.setActiveSpaceportSuccess()),
   }
 };
 

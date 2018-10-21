@@ -23,7 +23,9 @@ class Missions extends React.Component {
           this.props.spaceportsLoadStatus.loaded &&
           this.props.spaceports.map((port) =>
             <MissionListItem key={`${port.latitude}-${port.longitude}-${port.missions.date}-${port.missions.rocket}`}
-                             spaceport={port} />
+                             spaceport={port}
+                             onClick={(port) => this.props.onSetActiveSpaceport(port)}
+            />
           )
         }
       </div>
@@ -41,6 +43,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     onLoadSpaceports: () => dispatch(spaceportActions.loadSpaceportsList()),
+    onSetActiveSpaceport: (port) => dispatch(spaceportActions.setActiveSpaceport(port)),
   }
 };
 

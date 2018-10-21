@@ -33,7 +33,6 @@
     border-bottom: 2px solid #444a50
 
     overflow: hidden
-    //transition: height .2s ease-in-out
 
   &.Open
     .Accordion
@@ -42,7 +41,25 @@
     .Panel
       display: block
       height: auto
+      padding-bottom: 10px
 
       span
         color: #aaa
         font-weight: 600
+
+      .Action,
+      .Outer
+        border: none
+        background: #434a50
+
+        color: #aaa
+        font-size: 14px
+        cursor: pointer
+
+        &:focus
+          outline: none
+
+      .Outer
+        margin-left: 15px
+        background: #753434
+
