@@ -6,7 +6,7 @@ import styles from './Dashboard.module.sass';
 import spaceportActions from '../../store/actions/spaceport.actions';
 
 import Globe from '../../components/Globe/Globe';
-import SpaceportPanel from '../../components/SpaceportPanel/SpaceportPanel';
+import MissionSummary from '../../components/MissionSummary/MissionSummary';
 
 class Dashboard extends React.Component {
   // Not sure if Ref creation was the better choice
@@ -47,13 +47,13 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div className={styles.Dashboard}>
+        <MissionSummary spaceport={this.state.selectedSpaceport} />
         <Globe ref={this.globe}
                activeSpaceport={this.props.activeSpaceport}
                spaceports={this.props.spaceports}
                spaceportsLoadStatus={this.props.spaceportsLoadStatus}
                afterSetActiveSpaceport={this.props.afterSetActiveSpaceport}
-               onLocationSelected={this.showSpaceportInfo} />
-        <SpaceportPanel spaceport={this.state.selectedSpaceport} />
+               onLocationSelected={this.showSpaceportInfo} /> 
       </div>
     );
   }
