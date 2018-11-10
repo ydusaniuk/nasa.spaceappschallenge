@@ -1,114 +1,95 @@
 import React from 'react';
+import * as THREE from 'three';
 
-import * as planetaryjs from 'planetary.js';
-import worldData from 'planetary.js/dist/world-110m.json';
-import * as d3 from 'd3';
+import earthMap from '../../assets/earth/earthmap1k.jpg';
+import earthBump from '../../assets/earth/earthbump1k.jpg';
 
 class Globe extends React.Component {
-  planet = planetaryjs.planet();
-
-  state = {
-    hasDrawnSpaceports: false,
-  };
-
-  onCanvasResize = (canvasHTML) => {
-    const wrapper = document.getElementById('globe-wrapper');
-
-    const resizeCanvas = () => {
-      const sideSize = Math.min(wrapper.offsetHeight, wrapper.offsetWidth);
-      const scaleSize = sideSize / 2;
-
-      canvasHTML.width = sideSize;
-      canvasHTML.height = sideSize;
-
-      this.planet.projection.scale(scaleSize).translate([scaleSize, scaleSize]);
-    };
-
-    // TODO: handle window resize event for canvas resizing
-    resizeCanvas();
-  };
-
-  focusOnLocation = (location) => {
-    const rotation = this.planet.projection.rotate();
-
-    rotation[0] = -location[0];
-    rotation[1] = -location[1];
-
-    this.planet.projection.rotate(rotation);
-  };
-
   componentDidMount() {
-    this.planet.loadPlugin(
-      planetaryjs.plugins.earth({
-        topojson: { world: worldData },
-        oceans: { fill: '#05122d' },
-        land: { fill: '#408a38' },
-        borders: { stroke: '#05122d' }
-      })
+    const width = this.mount.clientWidth;
+    const height = this.mount.clientHeight;
+    //ADD SCENE
+    this.scene = new THREE.Scene();
+    //ADD CAMERA
+    this.camera = new THREE.PerspectiveCamera(
+      75,
+      width / height,
+      0.1,
+      1000
     );
+    this.camera.position.z = 4;
+    //ADD RENDERER
+    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.renderer.setClearColor('#000000');
+    this.renderer.setSize(width, height);
+    this.mount.appendChild(this.renderer.domElement);
+    //ADD EARTH
+    const geometry = new THREE.SphereGeometry(2, 32, 32);
 
-    this.planet.loadPlugin(planetaryjs.plugins.drag({
-      onDragStart: () => {
-        const location = this.planet.projection.invert(d3.mouse(this.planet.canvas));
-        this.props.onLocationSelected(location);
-      },
-    }));
+    // const texture = new THREE.TextureLoader().load(earthMap);
 
-    this.planet.projection.scale(200).translate([200, 200]);
+    this.light = new THREE.AmbientLight();
+    this.scene.add(this.light);
 
-    // TODO: should look for more elegant way of canvas usage
-    const canvasHTML = document.getElementById('globe');
-    this.planet.draw(canvasHTML);
+    const map = new THREE.TextureLoader().load(earthMap);
+    // map.wrapS = THREE.ClampToEdgeWrapping;
+    // map.wrapT = THREE.ClampToEdgeWrapping;
+    // map.repeat.set( 4, 4 );
+    // const bump = new THREE.TextureLoader().load(earthBump);
 
-    this.onCanvasResize(canvasHTML);
+
+    const material = new THREE.MeshPhongMaterial({
+      map: map,
+      // bumpMap: bump,
+      // bumpScale: 0.05,
+    });
+    // material.map = THREE.ImageUtils.loadTexture(earthMap);
+    //
+    // material.bumpMap = THREE.ImageUtils.loadTexture(earthBump);
+    // material.bumpScale = 0.05;
+
+    this.cube = new THREE.Mesh(geometry, material);
+    this.scene.add(this.cube);
+    this.start();
   }
 
-  componentDidUpdate() {
-    if (this.props.spaceportsLoadStatus.loaded && !this.state.hasDrawnSpaceports) {
-      this.setState({ hasDrawnSpaceports: true });
-
-      this.planet.onDraw(() => {
-        this.planet.withSavedContext((context) => {
-          context.beginPath();
-
-          this.props.spaceports.forEach((port) => {
-            this.planet.path.context(context)({
-              type: 'Point',
-              coordinates: [port.longitude, port.latitude],
-            });
-          });
-
-          context.strokeStyle = '#f00';
-          context.stroke();
-
-          context.fillStyle = '#b40000';
-          context.fill();
-
-          context.closePath();
-        });
-      });
-    }
-
-    if (this.props.activeSpaceport) {
-      const rotation = this.planet.projection.rotate();
-
-      rotation[0] = -this.props.activeSpaceport.longitude;
-      rotation[1] = -this.props.activeSpaceport.latitude;
-
-      this.planet.projection.rotate(rotation);
-
-      this.props.afterSetActiveSpaceport();
-    }
+  componentWillUnmount() {
+    this.stop();
+    this.mount.removeChild(this.renderer.domElement);
   }
+
+  start = () => {
+    if (!this.frameId) {
+      this.frameId = requestAnimationFrame(this.animate);
+    }
+  };
+
+  stop = () => {
+    cancelAnimationFrame(this.frameId);
+  };
+
+  animate = () => {
+    this.cube.rotation.y -= 0.005;
+    this.renderScene();
+
+    this.frameId = window.requestAnimationFrame(this.animate);
+  };
+
+  renderScene = () => {
+    this.renderer.render(this.scene, this.camera);
+  };
 
   render() {
     return (
-      <div id="globe-wrapper"
-           style={{width: '100%', height: '100%', minHeight: '360px'}}>
-        <canvas id="globe" style={{display: 'block', margin: '0 auto'}} />
-      </div>
-    );
+      <div
+        style={{ width: '800px', height: '800px' }}
+        ref={(mount) => {
+          this.mount = mount
+        }}
+      />
+    )
   }
+
 }
 
 export default Globe;
